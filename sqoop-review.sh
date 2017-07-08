@@ -29,3 +29,16 @@ sqoop export --connect jdbc:mysql://quickstart.cloudera:3306/pravin \
 --username root --password cloudera \
 --export-dir /user/cloudera/department_seq \
 --table departments 
+
+sqoop import-all-tables --connect jdbc:mysql://\
+quickstart.cloudera:3306/retail_db \
+--username root --password cloudera \
+-m=8 -z --hive-database='pravin' \
+--hive-import --hive-overwrite --create-hive-table \
+--outdir='java_files' 
+
+sqoop import-all-tables --connect jdbc:mysql://\
+quickstart.cloudera:3306/retail_db \
+--username root --password cloudera \
+-m=8 -z --as-sequencefile \
+--warehouse-dir="/user/cloudera/retail_db_seq"
