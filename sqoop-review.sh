@@ -42,3 +42,12 @@ quickstart.cloudera:3306/retail_db \
 --username root --password cloudera \
 -m=8 -z --as-sequencefile \
 --warehouse-dir="/user/cloudera/retail_db_seq"
+
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --query="select * from orders join order_items on orders.order_id = order_items.order_item_order_id where \$CONDITIONS" \
+  --target-dir /user/cloudera/order_join \
+  --split-by order_id \
+  --num-mappers 4
